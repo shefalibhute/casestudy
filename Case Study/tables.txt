@@ -1,0 +1,75 @@
+ create table cust_tbl(
+ firstname VARCHAR(20),
+ lastname   VARCHAR(20),
+ username   VARCHAR(20),
+ password   VARCHAR(20),
+ emailid    VARCHAR(35),
+ phoneno    VARCHAR(10),
+ membershiptype     VARCHAR(8),
+ dateofjoining      DATE,
+ status     VARCHAR(9),
+ outstandingdues    INT
+   );
+
+ create table admin_tbl(
+ firstname VARCHAR(20),
+ lastname   VARCHAR(20),
+ username   VARCHAR(20) primary key,
+ password   VARCHAR(20),
+ emailid    VARCHAR(35),
+ phoneno    VARCHAR(10)
+   );
+
+ create table issue_details(
+ username varchar(20),
+ bookid     number(3),
+ bookname   varchar2(30),
+ issuedate  date,
+ returndate    date,
+ request    varchar(10),
+ requeststatus       varchar(20),
+ fineamount     	int,
+ constraint fk foreign key(username) references cust_tbl(username),
+ constraint fk_1 foreign key(bookid,bookname) references books_tbl(bookid,bookname)
+ );
+
+create table books_tbl(
+bookid		  number(3),
+bookname 	varchar2(30),
+author		  varchar2(30),
+availability	   varchar2(15),
+comments	   varchar2(100)
+);
+
+delete from issue_details where bookid=5 and username='sej123' and request='Issue' and requeststatus='Approved';
+
+alter table issue_details add constraint pk primary key (username,bookid);
+
+insert into table (select * from books_tbl) values
+ (seq_book.nextval,'Pride and Prejudice','Charles Dickens','Available','');
+
+insert into cust_tbl values('Mounika','Marka','mon123','abc123','mon@gmail.com','8288885865','Premium',to_date('03-APR-16')
+,'inactive',34,'Credit');
+
+alter table issue_details rename column reueststatus to requeststatus;
+
+insert into books_tbl(bookid,bookname,author,availability) values(1,'Wuthering Heights','Emily Bronte','Available');
+insert into books_tbl(bookid,bookname,author,availability) values(2,'Great Expectations','Charles Dickens','Available');
+insert into books_tbl(bookid,bookname,author,availability) values(3,'Catcher in the Rye','J.D. Salinger','Available');
+insert into books_tbl(bookid,bookname,author,availability) values(4,'The Pickwick Papers','Charles Dickens','Available');
+insert into books_tbl(bookid,bookname,author,availability) values(5,'A Thousand Splendid Suns','Khaled Hosseni','Available');
+
+
+ create table comms(
+    bookid number(3),
+    bookname varchar2(30),
+   comments varchar2(50)
+    );
+
+
+update issue_details set requeststatus='Rejected' where bookid=1 and username='sej123' and request='Issue';
+
+insert into issue_details (username,bookid,bookname,issuedate,request,requeststatus,finestatus)
+    values(
+    'mon123'
+    ,6,'Srikanto',to_date('05-MAR-17'),'Issue','Approved','Not Paid');
